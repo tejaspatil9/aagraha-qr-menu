@@ -11,13 +11,13 @@ export default function InlineReview() {
   const [loading, setLoading] = useState(false);
 
   async function submitReview() {
-    if (!rating || loading) return;
+    if (rating === null || loading) return;
 
     try {
       setLoading(true);
 
       const { error } = await supabase.from("reviews").insert({
-        restaurant_id: "aagraha", // ✅ FIXED
+        restaurant_id: "aagraha", // fixed restaurant id
         rating,
         feedback: feedback.trim() || null,
       });
@@ -29,11 +29,11 @@ export default function InlineReview() {
       }
 
       /* 🚨 WhatsApp alert ONLY for 1⭐ & 2⭐ */
-      if (rating === 1 || rating === 2) {
+      if (rating <= 2) {
         const message = encodeURIComponent(
           `⚠️ Low rating received at ${RESTAURANT.name}\n\n` +
-          `Rating: ${rating} star(s)\n` +
-          `Feedback: ${feedback || "No comment provided"}`
+            `Rating: ${rating} star(s)\n` +
+            `Feedback: ${feedback || "No comment provided"}`
         );
 
         window.open(
@@ -50,6 +50,7 @@ export default function InlineReview() {
 
   /* ---------- AFTER SUBMIT ---------- */
 
+  // ⭐⭐⭐⭐⭐ → Google link
   if (submitted && rating === 5) {
     return (
       <section className="mt-16 px-6 text-center">
@@ -75,7 +76,8 @@ export default function InlineReview() {
     );
   }
 
-  if (submitted && rating < 5) {
+  // ⭐⭐⭐⭐ and below → internal only
+  if (submitted && rating !== null && rating < 5) {
     return (
       <section className="mt-16 px-6 text-center">
         <h3 className="text-[22px] mb-3 text-[#F5E6C8]">
@@ -101,6 +103,7 @@ export default function InlineReview() {
         Your feedback helps us serve you better.
       </p>
 
+      {/* STAR RATING */}
       <div className="flex justify-center gap-2 mb-4">
         {[1, 2, 3, 4, 5].map((n) => (
           <button
@@ -108,7 +111,7 @@ export default function InlineReview() {
             onClick={() => setRating(n)}
             aria-label={`${n} star rating`}
             className={`text-3xl transition ${
-              rating && rating >= n
+              rating !== null && rating >= n
                 ? "text-yellow-400"
                 : "text-gray-600"
             }`}
@@ -118,6 +121,7 @@ export default function InlineReview() {
         ))}
       </div>
 
+      {/* FEEDBACK */}
       <textarea
         placeholder="Tell us more (optional)"
         value={feedback}
@@ -128,9 +132,9 @@ export default function InlineReview() {
 
       <button
         onClick={submitReview}
-        disabled={loading || !rating}
+        disabled={loading || rating === null}
         className={`mt-4 w-full rounded-xl py-3 font-medium transition ${
-          loading || !rating
+          loading || rating === null
             ? "bg-gray-700 text-gray-300 cursor-not-allowed"
             : "bg-[#7a1f1f] text-white"
         }`}
