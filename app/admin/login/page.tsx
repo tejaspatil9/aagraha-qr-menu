@@ -3,14 +3,23 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
+export const dynamic = "force-dynamic";
+
 export default function AdminLogin() {
   const [password, setPassword] = useState("");
   const router = useRouter();
 
   function login() {
-    if (password === process.env.NEXT_PUBLIC_ADMIN_PASSWORD) {
+    const ADMIN_PASSWORD = process.env.NEXT_PUBLIC_ADMIN_PASSWORD;
+
+    if (!ADMIN_PASSWORD) {
+      alert("Admin password is not configured on server");
+      return;
+    }
+
+    if (password.trim() === ADMIN_PASSWORD) {
       sessionStorage.setItem("admin-auth", "true");
-      router.push("/admin");
+      router.replace("/admin");
     } else {
       alert("Wrong password");
     }
@@ -29,6 +38,9 @@ export default function AdminLogin() {
           className="w-full border p-3 rounded mb-4"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") login();
+          }}
         />
 
         <button
