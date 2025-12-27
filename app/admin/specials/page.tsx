@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { supabase } from "@/lib/supabaseClient";
 import { uploadImage } from "@/lib/uploadImage";
 import { deleteImageByUrl } from "@/lib/deleteImage";
+export const dynamic = "force-dynamic";
 
 export default function AdminSpecials() {
   const router = useRouter();

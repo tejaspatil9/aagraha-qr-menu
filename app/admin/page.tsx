@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
+export const dynamic = "force-dynamic";
 
 export default function AdminDashboard() {
   const router = useRouter();

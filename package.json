@@ -2,27 +2,26 @@
   "name": "aagraha-qr-menu",
   "version": "0.1.0",
   "private": true,
- "scripts": {
-  "dev": "set NEXT_DISABLE_TURBOPACK=1 && next dev",
-  "build": "next build",
-  "start": "next start"
-},
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
   "dependencies": {
-    "@supabase/supabase-js": "^2.89.0",
-    "framer-motion": "^12.23.26",
     "next": "16.1.1",
     "react": "19.2.3",
-    "react-dom": "19.2.3"
+    "react-dom": "19.2.3",
+    "@supabase/supabase-js": "^2.89.0",
+    "framer-motion": "^12.23.26"
   },
   "devDependencies": {
-    "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "babel-plugin-react-compiler": "1.0.0",
-    "eslint": "^9",
-    "eslint-config-next": "16.1.1",
+    "typescript": "^5",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "@tailwindcss/postcss": "^4",
+    "eslint": "^9",
+    "eslint-config-next": "16.1.1"
   }
 }
